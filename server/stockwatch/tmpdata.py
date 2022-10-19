@@ -37,3 +37,20 @@ def addTempData(request):
     )
     print("Done adding temp data")
     return Response("Done adding temp data")
+
+import json
+def addRealData(request):
+    print("Adding real data")
+    json_data = open('./stockdata.json').read()
+    data = json.loads(json_data)
+    Stock.objects.all().delete()
+    for stock in data:
+        print('stock',stock.get('displaySymbol'),stock.get('displaySymbol') )
+
+        Stock.objects.create(
+            ticker=stock.get('displaySymbol'),
+            name=stock.get('description'),
+            price=0.00,
+        )
+    print("Done adding real data")
+    return Response(200)

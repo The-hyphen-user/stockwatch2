@@ -83,6 +83,7 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.ticker
+        #return "{}".format(self.ticker)
 
 class Holding(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -90,7 +91,7 @@ class Holding(models.Model):
     amount = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return self.account
 
 class Transaction(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
@@ -101,14 +102,14 @@ class Transaction(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.account
 
 class Watchlist(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.account
 
 # class News(models.Model):
 #     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
