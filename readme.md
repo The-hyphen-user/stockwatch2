@@ -1,6 +1,6 @@
 stocks.json contains all the stocks KNOW TO MAN!!!!  
 use the http://127.0.0.1:8000/api/stockwatch/realdata/ endpoint to upload ALL STOCKS traded in usd into the db  
-WARNING: this will take a while and may fail on slower computers(http default timeout is 1000 seconds)  
+WARNING: this will take a while and may fail on slower computers(http default timeout is 100 seconds)  
 
 
 to get this app running on your local machine:  
