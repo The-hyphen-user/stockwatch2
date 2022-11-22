@@ -32,10 +32,11 @@ from django.conf import settings
 from .serializers import StockSerializer, WatchlistSerializer, HoldingSerializer, TransactionSerializer
 import finnhub
 
-
-# Setup client
-finnhub_client = finnhub.Client(api_key="cb3l2vqad3i8tak12f6g")
-# finnhub_client = finnhub.Client(api_key="bsq7vq7rh5r8q7q0q0g0")
+import os
+from dotenv import load_dotenv
+load_dotenv()
+SECRET_KEY = str(os.getenv('FINNHUB_API_KEY'))
+finnhub_client = finnhub.Client(api_key=SECRET_KEY)
 
 class TestView(APIView):
     permission_classes = (IsAuthenticated,)
