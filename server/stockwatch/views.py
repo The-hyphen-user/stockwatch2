@@ -168,7 +168,7 @@ def userStocks(request, ticker, amount):
             return Response("User does not own stock", status=status.HTTP_400_BAD_REQUEST)
     
         
-#finnhub api call 60 a minute
+#finnhub api call 60 per minute
 def getStockPrice(ticker):
     return finnhub_client.quote(ticker)['c']
         
