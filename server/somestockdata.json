@@ -1,0 +1,62 @@
+[
+    {
+        "currency": "USD",
+        "description": "Aritzia Inc ",
+        "displaySymbol": "ATZAF",
+        "figi": "BBG00FBHGCH4",
+        "isin": null,
+        "mic": "OOTC",
+        "shareClassFIGI": "BBG00DR7R5L2",
+        "symbol": "ATZAF",
+        "symbol2": "",
+        "type": "Common Stock"
+    },
+    {
+        "currency": "USD",
+        "description": "Arcellx Inc",
+        "displaySymbol": "ACLX",
+        "figi": "BBG00QHJM4S9",
+        "isin": null,
+        "mic": "XNAS",
+        "shareClassFIGI": "BBG00QHJM4W4",
+        "symbol": "ACLX",
+        "symbol2": "",
+        "type": "Common Stock"
+    },
+    {
+        "currency": "USD",
+        "description": "OCI International Holdings Ltd",
+        "displaySymbol": "DGTLF",
+        "figi": "BBG000JCDP93",
+        "isin": null,
+        "mic": "OOTC",
+        "shareClassFIGI": "BBG001SHT980",
+        "symbol": "DGTLF",
+        "symbol2": "",
+        "type": "Common Stock"
+    },
+    {
+        "currency": "USD",
+        "description": "SHL Telemedicine Ltd",
+        "displaySymbol": "SMDCF",
+        "figi": "BBG000CVV9D9",
+        "isin": null,
+        "mic": "OOTC",
+        "shareClassFIGI": "BBG001SB7406",
+        "symbol": "SMDCF",
+        "symbol2": "",
+        "type": "Common Stock"
+    },
+    {
+        "currency": "USD",
+        "description": "Arena Minerals Inc ",
+        "displaySymbol": "AMRZF",
+        "figi": "BBG00D0LJTD6",
+        "isin": null,
+        "mic": "OOTC",
+        "shareClassFIGI": "BBG001S8VSZ5",
+        "symbol": "AMRZF",
+        "symbol2": "",
+        "type": "Common Stock"
+    }
+]

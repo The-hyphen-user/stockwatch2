@@ -31,7 +31,7 @@ from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshVie
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("stockwatch/", include("stockwatch.urls")),
+    path("api/stockwatch/", include("stockwatch.urls")),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

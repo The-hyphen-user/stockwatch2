@@ -1,8 +1,11 @@
 from urllib import request
+from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
 import environ
+
+# from server.stockwatch import serializers
 env = environ.Env()
 environ.Env.read_env()
 apiKey = 'CUKEHSRPBRRPNYX1'
@@ -27,6 +30,12 @@ import jwt
 from django.contrib.auth.models import User
 from django.conf import settings
 from .serializers import StockSerializer, WatchlistSerializer, HoldingSerializer, TransactionSerializer
+import finnhub
+
+
+# Setup client
+finnhub_client = finnhub.Client(api_key="cb3l2vqad3i8tak12f6g")
+# finnhub_client = finnhub.Client(api_key="bsq7vq7rh5r8q7q0q0g0")
 
 class TestView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -55,10 +64,10 @@ class PortfolioView(APIView):
         #     message = "hello", username
         #     content = {"message": message}
         #     return Response(content)
-
-        user = Account.objects.get(email=request.user.email)
-        print(user.username)
-        return Response(user.username)
+# user.password, user.balance, user.id, user.watchlist, user.holdings, user.transactions
+        account = Account.objects.get(email=request.user.email)
+        print(account.username, account.email)
+        return JsonResponse({'username': account.username, 'email': account.email, 'balance': account.wealth })
 
 @api_view(['POST', 'DELETE'])
 def watchlist(request, ticker):
@@ -158,24 +167,19 @@ def userStocks(request, ticker, amount):
             return Response("User does not own stock", status=status.HTTP_400_BAD_REQUEST)
     
         
-
-
-        
-
+#finnhub api call 60 a minute
 def getStockPrice(ticker):
-    # url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={}&apikey={}".format(ticker, apiKey)
-    # response = requests.get(url)
-    # data = json.loads(response.text)
-    # price = data['Global Quote']['05. price']
-    # return price
-        # Get the stock price
-    url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={}&apikey={}".format(ticker, apiKey)
-    response = requests.get(url)
-    data = json.loads(response.text)
-    price = data["Global Quote"]["05. price"]
-    name = data["Global Quote"]["01. symbol"]
-    print("price:", price)
-    return float(price)
+    return finnhub_client.quote(ticker)['c']
+        
+#alphavantage 5 api calls a min
+# def getStockPrice(ticker):
+#     url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={}&apikey={}".format(ticker, apiKey)
+#     response = requests.get(url)
+#     data = json.loads(response.text)
+#     price = data["Global Quote"]["05. price"]
+#     name = data["Global Quote"]["01. symbol"]
+#     print("price:", price)
+#     return float(price)
 
 def UpdateStockPrices():
     import requests
@@ -218,6 +222,10 @@ def lookup(request, ticker):
     content = {"price": price, "name": name}
     return Response(content)
 
+
+
+
+
 class LookupView(APIView):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (JWTAuthentication,)
@@ -246,7 +254,21 @@ class LookupView(APIView):
         content = {"price": price, "name": name}
         return Response(content)
 
+class SearchView(APIView):
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JWTAuthentication,)
 
+    def get(self, request, *args, **kwargs):
+        query = kwargs.get('query')
+        #search for stocks based on name
+        Stocks = Stock.objects.filter(name__icontains=query)
+        serializer = StockSerializer(Stocks, many=True)
+        #use getStockPrice() to get price of each stock
+        try:
+            for stock in serializer.data[:11]:
+                stock['price'] = getStockPrice(stock['ticker'])
+        finally:
+            return Response(serializer.data)
 
 class TransactionView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -257,3 +279,5 @@ class TransactionView(APIView):
         transactions = Transaction.objects.filter(account=account)
         serializer = TransactionSerializer(transactions, many=True)
         return Response(serializer.data)
+
+

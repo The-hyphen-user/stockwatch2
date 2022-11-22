@@ -22,9 +22,17 @@ class HoldingSerializer(serializers.ModelSerializer):
 
 
 class TransactionSerializer(serializers.ModelSerializer):
+    stock = StockSerializer(read_only=True)
+    account = serializers.SlugRelatedField(
+        read_only=True, slug_field="username"
+    )
+
     class Meta:
         model = Transaction
         fields = "__all__"
+    # class Meta:
+    #     model = Transaction
+    #     fields = ['id', 'account', 'stock', 'amount', 'price', 'type', 'date']
 
 
 class WatchlistSerializer(serializers.ModelSerializer):
@@ -32,7 +40,7 @@ class WatchlistSerializer(serializers.ModelSerializer):
         model = Watchlist
         fields = "__all__"
 
-class TransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Transaction
-        fields = "__all__"
+# class TransactionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Transaction
+#         fields = "__all__"
